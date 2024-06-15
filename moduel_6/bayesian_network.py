@@ -1,5 +1,11 @@
-# run pip install pgmpy in terminal to install pgmpy library.
+"""
+BU MET CS 767 Assignment 6: Bayesian Network
+Alessandro Allegranzi
+6/19/2024
+"""
 
+# run pip install pgmpy in terminal to install pgmpy library.
+# https://pgmpy.org/models/bayesiannetwork.html
 from pgmpy.models import BayesianNetwork
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import VariableElimination
@@ -11,17 +17,15 @@ model = BayesianNetwork([
     ('Economic Outlook', 'Vote')
 ])
 
-# Define the conditional probability distribution (CPD) for each node
-# slightly higher chance of negative economic outlook.
+# Defining the conditional probability distribution (CPD) for each node
 cpd_economic_outlook = TabularCPD(variable='Economic Outlook', variable_card=2, values=[[0.6], [0.4]])
 
-# Assuming 0: Negative, 1: Positive for Economic Outlook
-# Assuming 0: Conservative, 1: Liberal, 2: Other for Political Affiliation
+
 cpd_political_affiliation = TabularCPD(variable='Political Affiliation', variable_card=3, 
                                        values=[
                                            [0.6, 0.2],  # Higher probability of being conservative if economic outlook is negative
                                            [0.3, 0.5],  # Higher probability of being liberal if economic outlook is positive
-                                           [0.1, 0.3]   # Other remains less likely in both cases
+                                           [0.1, 0.3]   # Independent remains less likely in both cases
                                        ],
                                        evidence=['Economic Outlook'],
                                        evidence_card=[2])
@@ -47,5 +51,6 @@ assert model.check_model()
 inference = VariableElimination(model)
 
 # Query the model: P(Vote | Economic Outlook=0, Political Affiliation=0)
-result = inference.query(variables=['Vote'], evidence={'Economic Outlook': 0, 'Political Affiliation': 0})
+result = inference.query(variables=['Vote'], evidence={'Economic Outlook': 1, 'Political Affiliation': 1})
+# Positive economic outlook and liberal affiliation should lead to higher likelihood of vote 1.
 print(result)
