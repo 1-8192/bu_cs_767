@@ -24,8 +24,8 @@ cpd_economic_outlook = TabularCPD(variable='Economic Outlook', variable_card=2, 
 cpd_political_affiliation = TabularCPD(variable='Political Affiliation', variable_card=3, 
                                        values=[
                                            [0.6, 0.2],  # Higher probability of being conservative if economic outlook is negative
-                                           [0.3, 0.5],  # Higher probability of being liberal if economic outlook is positive
-                                           [0.1, 0.3]   # Independent remains less likely in both cases
+                                           [0.25, 0.5],  # Higher probability of being liberal if economic outlook is positive
+                                           [0.15, 0.3]   # Independent remains less likely in both cases
                                        ],
                                        evidence=['Economic Outlook'],
                                        evidence_card=[2])
@@ -51,9 +51,9 @@ assert model.check_model()
 inference = VariableElimination(model)
 
 # Query the model: P(Vote | Economic Outlook=1, Political Affiliation=1)
-result = inference.query(variables=['Vote'], evidence={'Economic Outlook': 1, 'Political Affiliation': 1})
+result = inference.query(variables=['Political Affiliation'], evidence={'Economic Outlook': 1, 'Vote': 1})
 # Second example is negative economic outlook and liberal political affiliation.
-result_two = inference.query(variables=['Vote'], evidence={'Economic Outlook': 0, 'Political Affiliation': 1})
+result_two = inference.query(variables=['Political Affiliation'], evidence={'Economic Outlook': 0, 'Vote': 1})
 # Positive economic outlook and liberal affiliation should lead to higher likelihood of vote 1.
 print(result)
 print("\n")
