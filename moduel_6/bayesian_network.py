@@ -50,11 +50,14 @@ assert model.check_model()
 # Perform inference
 inference = VariableElimination(model)
 
-# Query the model: P(Vote | Economic Outlook=1, Political Affiliation=1)
+# Query the model with test requests: P(Vote | Economic Outlook=1, Political Affiliation=1)
+# Probability of political affiliation given positive economic outlook and liberal vote. Expecting a higher
+# probability for liberal affiliation.
 result = inference.query(variables=['Political Affiliation'], evidence={'Economic Outlook': 1, 'Vote': 1})
-# Second example is negative economic outlook and liberal political affiliation.
+# Second example is same as above but with negative economic outlook.
 result_two = inference.query(variables=['Political Affiliation'], evidence={'Economic Outlook': 0, 'Vote': 1})
-# Positive economic outlook and liberal affiliation should lead to higher likelihood of vote 1.
+# Expecting highest likelihood of liberal (1) affiliation
 print(result)
 print("\n")
+# Expecting highest likelihood of conservative (0) affiliation.
 print(result_two)
