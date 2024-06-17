@@ -4,13 +4,13 @@ Alessandro Allegranzi
 6/19/2024
 """
 
-# run pip install pgmpy in terminal to install pgmpy library.
+# run 'pip install pgmpy' in terminal to install pgmpy library.
 # https://pgmpy.org/models/bayesiannetwork.html
 from pgmpy.models import BayesianNetwork
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import VariableElimination
 
-# Define the structure of the Bayesian network
+# Defining the structure of the Bayesian network
 model = BayesianNetwork([
     ('Economic Outlook', 'Political Affiliation'), 
     ('Political Affiliation', 'Vote'), 
